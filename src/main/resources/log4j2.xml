@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--level.sort: off > fatal > error > warn > info > debug > trace > all -->
+<!--configuration:log4j2self print level,monitorInterval：regularly refresh-->
+<configuration status="WARN" monitorInterval="30">
+    <appenders>
+        <!-- print to console -->
+        <console name="Console" target="SYSTEM_OUT">
+            <PatternLayout pattern="[%d{HH:mm:ss:SSS}] [%p] - %l - %m%n"/>
+        </console>
+        <!--  above info log -->
+        <RollingFile name="RollingFileInfo" fileName="../logs/mulDataSourceApi/info.log"
+                     filePattern="../logs/mulDataSourceApi/info-%d{yyyy-MM-dd}-%i.zip">
+            <ThresholdFilter level="info" onMatch="ACCEPT" onMismatch="DENY"/>
+            <PatternLayout pattern="[%d{HH:mm:ss:SSS}] [%p] - %l - %m%n"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy/>
+                <SizeBasedTriggeringPolicy size="30 MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="30"/>
+        </RollingFile>
+        <!--  above warn log -->
+        <RollingFile name="RollingFileWarn" fileName="../logs/mulDataSourceApi/warn.log"
+                     filePattern="../logs/mulDataSourceApi/warn-%d{yyyy-MM-dd}-%i.zip">
+            <ThresholdFilter level="warn" onMatch="ACCEPT" onMismatch="DENY"/>
+            <PatternLayout pattern="[%d{HH:mm:ss:SSS}] [%p] - %l - %m%n"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy/>
+                <SizeBasedTriggeringPolicy size="30 MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="20"/>
+        </RollingFile>
+        <!--  above error log -->
+        <RollingFile name="RollingFileError" fileName="../logs/mulDataSourceApi/error.log"
+                     filePattern="../logs/mulDataSourceApi/error-%d{yyyy-MM-dd}-%i.zip">
+            <ThresholdFilter level="error" onMatch="ACCEPT" onMismatch="DENY"/>
+            <PatternLayout pattern="[%d{HH:mm:ss:SSS}] [%p] - %l - %m%n"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy/>
+                <SizeBasedTriggeringPolicy size="30 MB"/>
+            </Policies>
+        </RollingFile>
+    </appenders>
+    <loggers>
+        <!-- exclude spring debug log-->
+        <logger name="org.springframework" level="INFO"/>
+        <!-- log level -->
+        <root level="all">
+            <appender-ref ref="Console"/>
+            <appender-ref ref="RollingFileInfo"/>
+            <appender-ref ref="RollingFileWarn"/>
+            <appender-ref ref="RollingFileError"/>
+        </root>
+    </loggers>
+</configuration>
